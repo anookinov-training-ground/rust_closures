@@ -81,4 +81,37 @@ fn main() {
     let simulated_random_number = 7;
 
     generate_workout(simulated_user_specified_value, simulated_random_number);
+
+    // let x = 4;
+    let x = vec![1, 2, 3];
+
+    let equal_to_x = move |z| z == x; // use closure to capture the environment within the same scope
+    // FnOnce - consume variables it captures
+    // FnMut - change the environment because it mutably borrows values
+    // Fn - borrows values from the environment immutably
+    // move - keyword to force the closure to take ownership of the values
+    // fn equal_to_x_fn(z: i32) -> bool {
+    //     z == x // can't access x variable with function. has to use closure.
+    // }
+    // println!("can't use x here: {:?}", x); // can't use x as it's moved into closure
+
+    // let y = 4;
+    let y = vec![1, 2, 3];
+
+    assert!(equal_to_x(y));
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn call_with_different_values() {
+        let mut c = Cacher::new(|a| a);
+
+        let v1 = c.value(1);
+        let v2 = c.value(2);
+
+        assert_eq!(v2, 2);
+    }
 }
